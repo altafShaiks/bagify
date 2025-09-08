@@ -13,4 +13,4 @@ const ownerSchema = mongoose.Schema({
     gstin: String
 });
 
-module.exports = mongoose.model('user', ownerSchema);
+module.exports = mongoose.model('owner', ownerSchema);
