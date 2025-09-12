@@ -17,14 +17,22 @@ router.get('/shop', isLoggedin, async (req, res) => {
 
 router.get('/addtocart/:productId', isLoggedin, async (req, res) => {
     let user = await userModel.findOne({email: req.user.email});
-    user.cart.push(req.params.productId);
+    let item = user.cart.find(item => item.productDetails == req.params.productId);
+    if (item) {
+        item.quantity += 1;
+    } else {
+        user.cart.push({
+            productDetails: req.params.productId,
+            quantity: 1
+        });
+    }
     await user.save();
     req.flash('success', 'Product added to cart');
     res.redirect('/shop');
 });
 
 router.get('/cart', isLoggedin, async (req, res) => {
-    let user = await userModel.findOne({email: req.user.email}).populate('cart');
+    let user = await userModel.findOne({email: req.user.email}).populate('cart.productDetails');
     res.render('cart', {user});
 });
 

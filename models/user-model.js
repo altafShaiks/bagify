@@ -6,8 +6,14 @@ const userSchema = mongoose.Schema({
     password: String,
     cart: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'product'
+            productDetails:{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'product'
+            },
+            quantity: {
+                type: Number,
+                default: 0
+            }
         }
     ],
     isadmin: Boolean,
