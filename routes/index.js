@@ -28,12 +28,22 @@ router.get('/addtocart/:productId', isLoggedin, async (req, res) => {
     }
     await user.save();
     req.flash('success', 'Product added to cart');
-    res.redirect('/shop');
+    res.redirect(req.get('referer'));
 });
 
 router.get('/cart', isLoggedin, async (req, res) => {
     let user = await userModel.findOne({email: req.user.email}).populate('cart.productDetails');
     res.render('cart', {user});
+});
+
+router.get('/removefromcart/:productId', isLoggedin, async (req, res) => {
+    let user = await userModel.findOne({email: req.user.email}).populate('cart');
+    let item = user.cart.filter(item => item.productDetails == req.params.productId);
+    if (item) {
+        item[0].quantity -= 1;
+    }
+    await user.save();
+    res.redirect('/cart');
 });
 
 module.exports = router;

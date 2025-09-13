@@ -1,6 +1,6 @@
 <%- include('./partials/header') %>
     <% user.cart.forEach(function(item) { %>
-        <div class="w-full h-screen flex items-start px-20 py-20 gap-10">
+        <div class="w-full flex items-start px-20 py-5 gap-10">
             <div class="w-[30%] rounded-md overflow-hidden">
                 <div class="w-full h-80 flex justify-center items-center bg-[<%= item.productDetails.bgcolor %>]">
                     <img class="h-[18rem]" src="data:/image/jpeg;base64, <%= item.productDetails.image.toString('base64') %>" alt="">
@@ -8,9 +8,13 @@
                 <div class="w-full flex justify-between px-5 py-4 bg-[<%= item.productDetails.panelcolor %>]">
                     <h3 class="text-2xl"><%= item.productDetails.name %></h3>
                     <div class="flex items-center gap-2">
-                        <i class="w-7 h-7 bg-white flex rounded-full items-center justify-center ri-add-line"></i>
-                        <div class="px-2 py-1 rounded-md bg-white text-black">01</div>
-                        <i class="w-7 h-7 bg-white flex rounded-full items-center justify-center ri-subtract-line"></i>
+                        <a href="/removefromcart/<%= item.productDetails._id %>">
+                            <i class="w-7 h-7 bg-white flex rounded-full items-center justify-center ri-subtract-line"></i>
+                        </a>
+                        <div class="px-2 py-1 rounded-md bg-white text-black"><%= item.quantity %></div>
+                        <a href="/addtocart/<%= item.productDetails._id %>">
+                            <i class="w-7 h-7 bg-white flex rounded-full items-center justify-center ri-add-line"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="flex items-center text-white justify-between px-5 py-3 bg-[<%= item.productDetails.textcolor %>]">
